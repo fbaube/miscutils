@@ -18,5 +18,5 @@ func Into(s string) time.Time {
 
 // Outa stops the clock, and also writes to os.Stderr.
 func Outa(s string, t time.Time) {
-	println(fmt.Sprintf("[>ENDED<] %s (elapsed %s) \n", s, time.Since(t)))
+	println(fmt.Sprintf("[>ENDED<] %s (elapsed %s)", s, time.Since(t)))
 }

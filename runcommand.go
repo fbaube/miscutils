@@ -12,7 +12,7 @@ import (
 // command's Stdout and Stderr, plus any error that prevented execution.
 // Note that the command and its arguments must be passed as a list of
 // individual tokens, rather than as a single string with blanks as
-// separators. 
+// separators.
 func RunCommand(cmdname string, args ...string) (stdout string, stderr string, err error) {
 	fmt.Println("RunCommand:", cmdname, args)
 	// e.g. cmd := exec.Command("ls", "-lah")
@@ -22,7 +22,7 @@ func RunCommand(cmdname string, args ...string) (stdout string, stderr string, e
 	cmd.Stderr = &sterr
 	err = cmd.Run()
 	if err != nil {
-		return "", "", errors.Wrap(err, "RunCommand failed")
+		err = errors.Wrap(err, "RunCommand failed")
 	}
-	return string(stout.Bytes()), string(sterr.Bytes()), nil
+	return string(stout.Bytes()), string(sterr.Bytes()), err
 }

@@ -2,7 +2,6 @@ package miscutils
 
 import (
 	"bytes"
-	"fmt"
 	"os/exec"
 
 	"github.com/pkg/errors"
@@ -14,7 +13,7 @@ import (
 // individual tokens, rather than as a single string with blanks as
 // separators.
 func RunCommand(cmdname string, args ...string) (stdout string, stderr string, err error) {
-	fmt.Println("RunCommand:", cmdname, args)
+	// fmt.Println("RunCommand:", cmdname, args)
 	// e.g. cmd := exec.Command("ls", "-lah")
 	cmd := exec.Command(cmdname, args...)
 	var stout, sterr bytes.Buffer

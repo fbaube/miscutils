@@ -2,6 +2,7 @@ package miscutils
 
 import (
 	"fmt"
+	S "strings"
 	"time"
 )
 
@@ -12,11 +13,17 @@ import (
 
 // Into starts the clock, and writes to os.Stderr.
 func Into(s string) time.Time {
-	println("[>BEGAN<]", s)
+	if s != "" {
+		println("[>BEGAN<]", s)
+	}
 	return time.Now()
 }
 
 // Outa stops the clock, and also writes to os.Stderr.
 func Outa(s string, t time.Time) {
-	println(fmt.Sprintf("[>ENDED<] %s (elapsed %s)", s, time.Since(t)))
+	if S.HasPrefix(s, "!") {
+		println(fmt.Sprintf("[>ENDED<] %s (elapsed %s)", s[1:], time.Since(t)))
+	} else {
+		println(fmt.Sprintf("==> %s took %s", s, time.Since(t)))
+	}
 }

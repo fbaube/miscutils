@@ -7,8 +7,10 @@ import (
 	"github.com/pkg/errors"
 )
 
-// RunCommand runs the command with 0-or-more arguments. It returns the
-// command's Stdout and Stderr, plus any error that prevented execution.
+// RunCommand runs `cmdname` with the supplied 0-or-more arguments.
+// It returns the command's `Stdout` and `Stderr`, plus any error
+// that prevented execution.
+//
 // Note that the command and its arguments must be passed as a list of
 // individual tokens, rather than as a single string with blanks as
 // separators.

@@ -9,6 +9,7 @@ import (
 )
 
 // PressAnyKey waits until any key is pressed.
+// The key is not echoed back to the user.
 func PressAnyKey() {
 	// disable input buffering
 	exec.Command("stty", "-F", "/dev/tty", "cbreak", "min", "1").Run()
@@ -20,8 +21,8 @@ func PressAnyKey() {
 	// fmt.Println("PressAnyKey() got the byte", b, "("+string(b)+")")
 }
 
-// InteractiveInput displays the arg as a prompt and then
-// reads a String entered by the user (ended by Enter).
+// InteractiveInput displays the argument string as a prompt and then
+// reads and returns a string entered by the user (ended by `Enter`).
 func InteractiveInput(prompt string) string {
 	if prompt != "" {
 		fmt.Printf("%s ", prompt)
@@ -35,7 +36,7 @@ func InteractiveInput(prompt string) string {
 	return SanitizeInput(input)
 }
 
-// GetKeypress is a nifty hack to read any key.
+// GetKeypress reads and returns (as a `byte`) a keypress.
 func GetKeypress() byte {
 	// disable input buffering
 	exec.Command("stty", "-F", "/dev/tty", "cbreak", "min", "1").Run()
@@ -44,18 +45,16 @@ func GetKeypress() byte {
 
 	var b = make([]byte, 1)
 	os.Stdin.Read(b)
-	fmt.Println("I got the byte", b, "("+string(b)+")")
+	// fmt.Println("I got the byte", b, "("+string(b)+")")
 	return b[0]
 }
 
 // SanitizeInput applies the following rules iteratively
 // until no further processing can be done:
-// :ol:
-// :: trim all the extra white spaces
-// :: trim all return carriage chars
-// :: trim leading / ending quotation marks (ex.: "my text")
-// :: trim leading / ending spaces
-// -ol-
+// - trim all extra white space
+// - trim all carriage return characters
+// - trim leading / ending quotation marks (ex.: "my text")
+// - trim leading / ending spaces
 func SanitizeInput(input string) string {
 	input = strings.TrimSpace(input)
 	if input == "" {

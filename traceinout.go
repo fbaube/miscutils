@@ -23,12 +23,12 @@ func Into(s string) time.Time {
 
 // Outa stops a clock that was started by `Into(..)`, and also writes
 // the elapsed time (in a human-friendly format) to `os.Stderr`.
-// The message is a bit more informative if the string starts with `!`
+// The message is less informative if the string starts with `!`
 // (which is not printed).
 func Outa(s string, t time.Time) {
 	if S.HasPrefix(s, "!") {
-		println(fmt.Sprintf("[>ENDED<] %s (elapsed %s)", s[1:], time.Since(t)))
+		println(fmt.Sprintf("==> %s took %s", s[1:], time.Since(t)))
 	} else {
-		println(fmt.Sprintf("==> %s took %s", s, time.Since(t)))
+		println(fmt.Sprintf("[>ENDED<] %s (elapsed: %s)", s, time.Since(t)))
 	}
 }

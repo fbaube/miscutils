@@ -8,8 +8,8 @@ import (
 	"strings"
 )
 
-// PressAnyKey waits until any key is pressed.
-// The key is not echoed back to the user.
+// PressAnyKey waits until any key is pressed. The key is not
+// echoed back to the user and is not returned to the caller. 
 func PressAnyKey() {
 	// disable input buffering
 	exec.Command("stty", "-F", "/dev/tty", "cbreak", "min", "1").Run()

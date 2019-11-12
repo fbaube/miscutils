@@ -11,9 +11,8 @@ import (
 // It returns the command's `Stdout` and `Stderr`, plus any error
 // that prevented execution.
 //
-// Note that the command and its arguments must be passed as a list of
-// individual tokens, rather than as a single string with blanks as
-// separators.
+// Pass the command and its arguments as a list of individual tokens,
+// rather than as a single string with blanks as separators.
 func RunCommand(cmdname string, args ...string) (stdout string, stderr string, err error) {
 	// fmt.Println("RunCommand:", cmdname, args)
 	// e.g. cmd := exec.Command("ls", "-lah")

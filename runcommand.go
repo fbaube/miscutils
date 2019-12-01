@@ -1,10 +1,9 @@
 package miscutils
 
 import (
+	"fmt"
 	"bytes"
 	"os/exec"
-
-	"github.com/pkg/errors"
 )
 
 // RunCommand runs `cmdname` with the supplied 0-or-more arguments.
@@ -22,7 +21,7 @@ func RunCommand(cmdname string, args ...string) (stdout string, stderr string, e
 	cmd.Stderr = &sterr
 	err = cmd.Run()
 	if err != nil {
-		err = errors.Wrap(err, "RunCommand failed")
+		err = fmt.Errorf("RunCommand failed: %w", err)
 	}
 	return string(stout.Bytes()), string(sterr.Bytes()), err
 }

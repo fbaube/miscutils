@@ -30,7 +30,6 @@ import (
 	"sync"
 	"time"
 	"errors"
-	S "strings"
 
 	FP "path/filepath"
 	SU "github.com/fbaube/stringutils"
@@ -78,11 +77,13 @@ var UserHomeDir string
 
 func init() {
 	UserHomeDir, _ = os.UserHomeDir()
+	/*
 	if S.HasSuffix(UserHomeDir, "/") {
 		println("--> Trimming trailing slash from UserHomeDir:", UserHomeDir)
 		UserHomeDir = S.TrimSuffix(UserHomeDir, "/")
 		println("--> UserHomeDir:", UserHomeDir)
 	}
+	*/
 }
 
 /*

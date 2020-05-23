@@ -30,9 +30,11 @@ import (
 	"sync"
 	"time"
 	"errors"
+	S "strings"
 
 	FP "path/filepath"
 	SU "github.com/fbaube/stringutils"
+	WU "github.com/fbaube/wasmutils"
 	"github.com/fatih/color"
 	"github.com/jimlawless/whereami"
 )
@@ -76,14 +78,18 @@ var SessionLogger *Logger
 var UserHomeDir string
 
 func init() {
-	UserHomeDir, _ = os.UserHomeDir()
-	/*
-	if S.HasSuffix(UserHomeDir, "/") {
-		println("--> Trimming trailing slash from UserHomeDir:", UserHomeDir)
-		UserHomeDir = S.TrimSuffix(UserHomeDir, "/")
-		println("--> UserHomeDir:", UserHomeDir)
+	// So is non-nil
+	// func New(out io.Writer, prefix string, flag int) *Logger
+	SessionLogger = New(os.Stdout, "log> ", 0)
+
+	if !WU.IsWasm() {
+		UserHomeDir, _ = os.UserHomeDir()
+		if S.HasSuffix(UserHomeDir, "/") {
+			println("--> Trimming trailing slash from UserHomeDir:", UserHomeDir)
+			UserHomeDir = S.TrimSuffix(UserHomeDir, "/")
+			println("--> UserHomeDir:", UserHomeDir)
+		}
 	}
-	*/
 }
 
 /*
@@ -303,6 +309,12 @@ func (l *Logger) Output(calldepth int, s string) error {
 	now := time.Now() // get this early.
 	var file string
 	var line int
+	/*
+	if l.mu == nil {
+		l.mu = new(sync.Mutex)
+	}
+*/
+	println("No mu.lock")
 	l.mu.Lock()
 	defer l.mu.Unlock()
 	if l.flag&(Lshortfile|Llongfile) != 0 {

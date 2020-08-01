@@ -2,6 +2,7 @@ package miscutils
 
 import (
 	"context"
+
 	"github.com/jmoiron/sqlx"
 )
 
@@ -22,10 +23,10 @@ type GCtx struct {
 	*sqlx.DB
 	// Database transaction
 	*sqlx.Tx
-	// Own Log Prefix (should include a blank if needed)
-	OLP string
-	// Own Logger
-	Log *Logger
-	// Session Logger (shared by all input files)
+	// OwnLogPfx is own log prefix (should include a blank if needed)
+	OwnLogPfx string
+	// OwnLog is own logger
+	OwnLog *Logger
+	// SsnLog is session logger (shared by all input files)
 	SsnLog *Logger
 }

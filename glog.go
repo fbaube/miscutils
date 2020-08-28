@@ -23,19 +23,20 @@
 package miscutils
 
 import (
+	"errors"
 	"fmt"
 	"io"
 	"os"
 	"runtime"
+	S "strings"
 	"sync"
 	"time"
-	"errors"
-	S "strings"
 
 	FP "path/filepath"
+
+	"github.com/fatih/color"
 	SU "github.com/fbaube/stringutils"
 	WU "github.com/fbaube/wasmutils"
-	"github.com/fatih/color"
 	"github.com/jimlawless/whereami"
 )
 
@@ -46,33 +47,10 @@ type Writer interface {
 func TracedError(e error) error {
 	return errors.New(
 		e.Error() +
-		"\n\t" + whereami.WhereAmI(2) +
-		"\n\t" + whereami.WhereAmI(3) +
-		"\n\t" + whereami.WhereAmI(4))
+			"\n\t" + whereami.WhereAmI(2) +
+			"\n\t" + whereami.WhereAmI(3) +
+			"\n\t" + whereami.WhereAmI(4))
 }
-
-// Write writes len(b) bytes to the File.
-// It returns the number of bytes written and an error, if any.
-// Write returns a non-nil error when n != len(b).
-/*
-func (f *File) Write(b []byte) (n int, err error) {
-	if err := f.checkValid("write"); err != nil {
-		return 0, err
-	}
-	n, e := f.write(b)
-	if n < 0 {
-		n = 0
-	}
-	if n != len(b) {
-		err = io.ErrShortWrite
-	}
-	epipecheck(f, e)
-	if e != nil {
-		err = f.wrapErr("write", e)
-	}
-	return n, err
-}
-*/
 
 var SessionLogger *Logger
 var UserHomeDir string
@@ -92,19 +70,10 @@ func init() {
 	}
 }
 
-/*
-func Tilded(s string) string {
-	if S.HasPrefix(s, UserHomeDir) {
-		return ("~" + S.TrimPrefix(s, UserHomeDir))
-	}
-	return s
-}
-*/
-
 func ErrorTrace(w io.Writer, e error) {
 	fmt.Fprintf(w, SU.Rfg(SU.Ybg(" ** ERROR ** ")))
 	color.Set(color.FgHiRed)
-	fmt.Fprintf(w, "\n" + e.Error() + "\n")
+	fmt.Fprintf(w, "\n"+e.Error()+"\n")
 	color.Unset()
 }
 
@@ -146,11 +115,11 @@ type Logger struct {
 
 func (L *Logger) Close() {
 	if F, ok := L.out.(*os.File); ok {
-      F.Sync()
-      F.Close()
-  } else if C, ok := L.out.(io.Closer); ok {
-      C.Close()
-  }
+		F.Sync()
+		F.Close()
+	} else if C, ok := L.out.(io.Closer); ok {
+		C.Close()
+	}
 }
 
 // NewAtPath creates a new Logger.
@@ -205,25 +174,25 @@ func New(out io.Writer, prefix string, flag int) *Logger {
 	buf := &L.buf
 	*buf = append(*buf, SU.B("## LOGFILE created at ")...)
 	// if l.flag&Ldate != 0 {
-		year, month, day := t.Date()
-		itoa(buf, year, 4)
-		*buf = append(*buf, '/')
-		itoa(buf, int(month), 2)
-		*buf = append(*buf, '/')
-		itoa(buf, day, 2)
-		*buf = append(*buf, ' ')
+	year, month, day := t.Date()
+	itoa(buf, year, 4)
+	*buf = append(*buf, '/')
+	itoa(buf, int(month), 2)
+	*buf = append(*buf, '/')
+	itoa(buf, day, 2)
+	*buf = append(*buf, ' ')
 	// if l.flag&(Ltime|Lmicroseconds) != 0 {
-		hour, min, sec := t.Clock()
-		itoa(buf, hour, 2)
-		*buf = append(*buf, ':')
-		itoa(buf, min, 2)
-		*buf = append(*buf, ':')
-		itoa(buf, sec, 2)
-		// if l.flag&Lmicroseconds != 0 {
-			*buf = append(*buf, '.')
-			itoa(buf, t.Nanosecond()/1e6, 3)
-		// }
-		*buf = append(*buf, SU.B(" local time\n## by ")...)
+	hour, min, sec := t.Clock()
+	itoa(buf, hour, 2)
+	*buf = append(*buf, ':')
+	itoa(buf, min, 2)
+	*buf = append(*buf, ':')
+	itoa(buf, sec, 2)
+	// if l.flag&Lmicroseconds != 0 {
+	*buf = append(*buf, '.')
+	itoa(buf, t.Nanosecond()/1e6, 3)
+	// }
+	*buf = append(*buf, SU.B(" local time\n## by ")...)
 	// }
 	// }
 	// if l.flag&(Lshortfile|Llongfile) != 0 {
@@ -275,7 +244,7 @@ func (l *Logger) formatHeader(buf *[]byte, t time.Time, file string, line int) {
 	*buf = append(*buf, l.prefix...)
 	if l.flag&LUTC != 0 {
 		t = t.UTC()
-		}
+	}
 	var elapsed time.Duration
 	elapsed = time.Since(l.creatime)
 	*buf = append(*buf, []byte(elapsed.String())...)
@@ -310,10 +279,10 @@ func (l *Logger) Output(calldepth int, s string) error {
 	var file string
 	var line int
 	/*
-	if l.mu == nil {
-		l.mu = new(sync.Mutex)
-	}
-*/
+		if l.mu == nil {
+			l.mu = new(sync.Mutex)
+		}
+	*/
 	println("No mu.lock")
 	l.mu.Lock()
 	defer l.mu.Unlock()

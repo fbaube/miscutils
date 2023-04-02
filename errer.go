@@ -8,6 +8,9 @@ package miscutils
 // We make the error public so that it is easily
 // set, and so that we can wrap errors easily
 // using the "%w" printf format spec.
+//
+// Methods are on *Errer, not Errer, so that
+// modification is possible.
 // .
 type Errer struct {
 	Err error
@@ -18,19 +21,34 @@ type Errer struct {
 // not really needed, but it seems appropriate
 // given that we also have func Error()
 // .
-func (p Errer) HasError() bool {
+func (p *Errer) HasError() bool {
 	return p.Err != nil
 }
 
 // Error is an NPE-proof improvement
 // on the standard error.Error()
 // .
-func (p Errer) Error() string {
+func (p *Errer) Error() string {
 	if p.Err == nil { // !p.HasError() {
 		return ""
 	}
 	return p.Err.Error()
 }
 
-// func (p *Errable) SetError(e error)
-// is unnecessary if Err is publicly visible.
+// SerError is a convenience func because setting
+// Error.Err is ugly.
+// .
+func (p *Errer) SetError(e error) {
+	p.Err = e
+}
+
+// GerError is a convenience func because getting
+// Error.Err is ugly.
+// .
+func (p *Errer) GetError() error {
+	return p.Err
+}
+
+func (p *Errer) ClearError() {
+	p.Err = nil
+}

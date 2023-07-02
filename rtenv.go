@@ -28,9 +28,13 @@ func RTEnv() string {
 	cwd, _ := os.Getwd()
 	usr, _ := os.UserHomeDir()
 	cfg, _ := os.UserConfigDir()
-	sb.WriteString(fmt.Sprintf("HN:%s U:%d eU:%d G:%d eG:%d \n",
-		hnm, os.Getuid(), os.Geteuid(), os.Getgid(), os.Getegid()))
+	sb.WriteString(fmt.Sprintf(
+		"hostname:%s \nU:%d G:%d \n", hnm, os.Getuid(), os.Getgid()))
 	sb.WriteString(fmt.Sprintf("cwd: %s\nusr: %s\ncfg: %s\n", cwd, usr, cfg))
-	sb.WriteString(fmt.Sprintf("Env: %+v \n", os.Environ()))
+	sb.WriteString("Env:\n")
+	env := os.Environ()
+	for _, s := range env {
+		sb.WriteString(s + "\n")
+	}
 	return sb.String()
 }

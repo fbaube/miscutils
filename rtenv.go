@@ -2,7 +2,9 @@ package miscutils
 
 import (
 	"fmt"
+	"golang.org/x/exp/slices"
 	"os"
+	RT "runtime"
 	S "strings"
 )
 
@@ -29,10 +31,14 @@ func RTEnv() string {
 	usr, _ := os.UserHomeDir()
 	cfg, _ := os.UserConfigDir()
 	sb.WriteString(fmt.Sprintf(
+		"GO-OS %s, GO-ARCH %s, GO-ROOT %s \n",
+		RT.GOOS, RT.GOARCH, RT.GOROOT()))
+	sb.WriteString(fmt.Sprintf(
 		"hostname:%s \nU:%d G:%d \n", hnm, os.Getuid(), os.Getgid()))
 	sb.WriteString(fmt.Sprintf("cwd: %s\nusr: %s\ncfg: %s\n", cwd, usr, cfg))
 	sb.WriteString("Env:\n")
 	env := os.Environ()
+	slices.Sort(env)
 	for _, s := range env {
 		sb.WriteString(s + "\n")
 	}

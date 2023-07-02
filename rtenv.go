@@ -40,7 +40,9 @@ func RTEnv() string {
 	env := os.Environ()
 	slices.Sort(env)
 	for _, s := range env {
-		sb.WriteString(s + "\n")
+		if !S.HasPrefix(s, "BASH_FUNC") {
+			sb.WriteString(s + "\n")
+		}
 	}
 	return sb.String()
 }

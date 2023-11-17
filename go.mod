@@ -2,4 +2,4 @@ module github.com/fbaube/miscutils
 
 go 1.20
 
-require golang.org/x/exp v0.0.0-20230626212559-97b1e661b5df // indirect
+require golang.org/x/exp v0.0.0-20231110203233-9a3e6036ecaa

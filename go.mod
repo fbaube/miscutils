@@ -1,5 +1,5 @@
 module github.com/fbaube/miscutils
 
-go 1.20
+go 1.21.6
 
-require golang.org/x/exp v0.0.0-20231110203233-9a3e6036ecaa
+require golang.org/x/exp v0.0.0-20240222234643-814bf88cf225

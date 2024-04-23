@@ -1,9 +1,10 @@
 package miscutils
 
-// Errer is used to embed an error in a struct,
-// when we want to execute (pointer) methods on
-// a struct in the style of a data pipeline,
-// i.e. chainable, and executed left-to-right.
+// Errer is a struct that can be used to embed 
+// an error in another struct, when we want to 
+// execute (pointer) methods on a struct in the 
+// style of a data pipeline, i.e. chainable, and
+// executed left-to-right.
 //
 // We make the error public so that it is easily
 // set, and so that we can wrap errors easily
@@ -42,7 +43,7 @@ func (p *Errer) SetError(e error) {
 	p.Err = e
 }
 
-// GerError is a convenience func because getting
+// GetError is a convenience func because getting
 // Error.Err is ugly.
 // .
 func (p *Errer) GetError() error {

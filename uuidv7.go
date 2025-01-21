@@ -6,6 +6,7 @@ import (
     "time"
 )
 
+// Uuidv7 is a cut & paste from somewhere or 'nother. 
 func Uuidv7() ([16]byte, error) {
     // random bytes
     var value [16]byte

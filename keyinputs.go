@@ -8,8 +8,9 @@ import (
 	"strings"
 )
 
-// PressAnyKey waits until any key is pressed. The key is not
-// echoed back to the user and is not returned to the caller. 
+// PressAnyKey issues a message to the user and then waits
+// until,,, any key is pressed. The key is not echoed back
+// to the user and is not returned to the caller. 
 func PressAnyKey() {
 	// disable input buffering
 	exec.Command("stty", "-F", "/dev/tty", "cbreak", "min", "1").Run()
@@ -49,8 +50,7 @@ func GetKeypress() byte {
 	return b[0]
 }
 
-// SanitizeInput applies the following rules iteratively
-// until no further processing can be done:
+// SanitizeInput applies the following rules:
 // - trim all extra white space
 // - trim all carriage return characters
 // - trim leading / ending quotation marks (ex.: "my text")

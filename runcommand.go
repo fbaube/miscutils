@@ -26,3 +26,4 @@ func RunCommand(cmdname string, args ...string) (stdout string, stderr string, e
 	}
 	return string(stout.Bytes()), string(sterr.Bytes()), err
 }
+
